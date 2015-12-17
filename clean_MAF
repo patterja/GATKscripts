@@ -89,5 +89,5 @@ snpdat_trunc=snpdat.ix[:,0:41]
 indel_trunc=indeldat.ix[:,0:41]
 
 mut_dat = pd.concat([snpdat_trunc, indel_trunc])
-mut_dat.to_csv(newdir + "all_muts.maf.txt", sep="\t")
+mut_dat.to_csv(newdir + "combo_muts.maf.txt", sep="\t")
 
