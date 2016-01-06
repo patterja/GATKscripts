@@ -33,16 +33,15 @@ for subdir, dirs, files in os.walk(snpdir):
 #Replace UNKNOWN barcode columns with list of column names made above
 #dat = pd.read_table(newdir + "gists_somatic_oncotate.txt")
 #replace the tumor and normal barcodes
-
 snpdat=  pd.DataFrame.from_csv(newdir + "gistsnp_somatic_oncotate.txt", header=0, sep="\t")
 snpdat.Tumor_Sample_Barcode=tumor_samp
 snpdat.Matched_Norm_Sample_Barcode=norm_match
-cols = snpdat.columns.tolist()
-
+#cols = snpdat.columns.tolist()
+snpdat.to_csv(newdir + "gistsnp_somatic_oncotate.maf.txt", sep="\t")
 #only use snps where read depth was equal or above 20
 snpdat=snpdat[snpdat['read_depth'] > 19]
 
-snpdat.to_csv(newdir + "gistsnp_somatic_oncotate.maf.txt", sep="\t")
+snpdat.to_csv(newdir + "gistsnp_somatic_oncotate_q20.maf.txt", sep="\t")
 
 for subdir, dirs, files in os.walk(indeldir):
 #for files in os.listdir(indeldir):
@@ -72,15 +71,15 @@ for subdir, dirs, files in os.walk(indeldir):
 #Change the sample barcode names for the final maf file
 #Replace UNKNOWN barcode columns with list of column names made above
 #dat = pd.read_table(newdir + "gists_somatic_oncotate.txt")
-indeldat=  pd.DataFrame.from_csv(newdir + "gistsindel_somatic_oncotate.txt", header=0, sep="\t")
 #replace the tumor and normal barcodes
+indeldat=  pd.DataFrame.from_csv(newdir + "gistsindel_somatic_oncotate.txt", header=0, sep="\t")
 indeldat.Tumor_Sample_Barcode=tumor_samp
 indeldat.Matched_Norm_Sample_Barcode=norm_samp
+indeldat.to_csv(newdir + "gistsindel_somatic_oncotate.maf.txt", sep="\t")
 
 #only use snps where read depth was equal or above 20
 indeldat=indeldat[indeldat['T_DP'] > 19]
-
-indeldat.to_csv(newdir + "gistsindel_somatic_oncotate.maf.txt", sep="\t")
+indeldat.to_csv(newdir + "gistsindel_somatic_oncotate_q20.maf.txt", sep="\t")
 
 
 
