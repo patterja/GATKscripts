@@ -8,7 +8,7 @@ indeldir = "C:\Users\Owner\Box Sync\oncotator\oncotator_indel\\"
 
 for subdir, dirs, files in os.walk(snpdir):
     #input the directory you want to walk through full of the oncotate files
-    fw = open(newdir + "gistsnp_somatic_oncotate.txt", 'w')
+    fw = open(newdir + "gistsnp_somatic_oncotate_unlabel.txt", 'w')
     #fw = open(newdir + file.replace("_merged_sort_mutect_filt_annotated", "_somatic_oncotate"), 'w')
     fh = open(snpdir + files[1], 'r')
     lines = fh.readlines()
@@ -33,19 +33,18 @@ for subdir, dirs, files in os.walk(snpdir):
 #Replace UNKNOWN barcode columns with list of column names made above
 #dat = pd.read_table(newdir + "gists_somatic_oncotate.txt")
 #replace the tumor and normal barcodes
-snpdat=  pd.DataFrame.from_csv(newdir + "gistsnp_somatic_oncotate.txt", header=0, sep="\t")
+snpdat=  pd.DataFrame.from_csv(newdir + "gistsnp_somatic_oncotate_unlabel.txt", header=0, sep="\t")
 snpdat.Tumor_Sample_Barcode=tumor_samp
 snpdat.Matched_Norm_Sample_Barcode=norm_match
 #cols = snpdat.columns.tolist()
 snpdat.to_csv(newdir + "gistsnp_somatic_oncotate.maf.txt", sep="\t")
 #only use snps where read depth was equal or above 20
-snpdat=snpdat[snpdat['read_depth'] > 19]
-
-snpdat.to_csv(newdir + "gistsnp_somatic_oncotate_q20.maf.txt", sep="\t")
+#snpdat=snpdat[snpdat['read_depth'] > 19]
+#snpdat.to_csv(newdir + "gistsnp_somatic_oncotate_q20.maf.txt", sep="\t")
 
 for subdir, dirs, files in os.walk(indeldir):
 #for files in os.listdir(indeldir):
-    fw = open(newdir + "gistsindel_somatic_oncotate.txt", 'w')
+    fw = open(newdir + "gistsindel_somatic_oncotate_unlabel.txt", 'w')
     fh = open(indeldir + files[1], 'r')
     lines = fh.readlines()
     fw.write(str(lines[8]))#write column names/header into the master file
@@ -72,14 +71,14 @@ for subdir, dirs, files in os.walk(indeldir):
 #Replace UNKNOWN barcode columns with list of column names made above
 #dat = pd.read_table(newdir + "gists_somatic_oncotate.txt")
 #replace the tumor and normal barcodes
-indeldat=  pd.DataFrame.from_csv(newdir + "gistsindel_somatic_oncotate.txt", header=0, sep="\t")
+indeldat=  pd.DataFrame.from_csv(newdir + "gistsindel_somatic_oncotate_unlabel.txt", header=0, sep="\t")
 indeldat.Tumor_Sample_Barcode=tumor_samp
 indeldat.Matched_Norm_Sample_Barcode=norm_samp
 indeldat.to_csv(newdir + "gistsindel_somatic_oncotate.maf.txt", sep="\t")
 
 #only use snps where read depth was equal or above 20
-indeldat=indeldat[indeldat['T_DP'] > 19]
-indeldat.to_csv(newdir + "gistsindel_somatic_oncotate_q20.maf.txt", sep="\t")
+#indeldat=indeldat[indeldat['T_DP'] > 19]
+#indeldat.to_csv(newdir + "gistsindel_somatic_oncotate_q20.maf.txt", sep="\t")
 
 
 
