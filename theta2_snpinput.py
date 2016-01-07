@@ -15,5 +15,5 @@ for file in os.listdir(snpdir):
         tumor=snpfilter[['contig','position','t_ref_count','t_alt_count']]
         normal=snpfilter[['contig','position','n_ref_count','n_alt_count']]
 
-        tumor.to_csv(newdir +  re.sub(r"dedup_realigned_recalib_callstats.txt$|merged_sort_callstats.txt$", 'tumor_SNP.txt', file), sep="\t")
-        normal.to_csv(newdir + re.sub(r"dedup_realigned_recalib_callstats.txt$|merged_sort_callstats.txt$", 'norm_SNP.txt', file), sep="\t")
+        tumor.to_csv(newdir +  re.sub(r"dedup_realigned_recalib_callstats.txt$|merged_sort_callstats.txt$", 'tumor_SNP.txt', file), sep="\t", index=False)
+        normal.to_csv(newdir + re.sub(r"dedup_realigned_recalib_callstats.txt$|merged_sort_callstats.txt$", 'norm_SNP.txt', file), sep="\t", index=False)
