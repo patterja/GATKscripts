@@ -33,14 +33,24 @@ for subdir, dirs, files in os.walk(snpdir):
 #Replace UNKNOWN barcode columns with list of column names made above
 #dat = pd.read_table(newdir + "gists_somatic_oncotate.txt")
 #replace the tumor and normal barcodes
-snpdat=  pd.DataFrame.from_csv(newdir + "gistsnp_somatic_oncotate_unlabel.txt", header=0, sep="\t")
+snpdat=  pd.read_csv(newdir + "gistsnp_somatic_oncotate_unlabel.txt", header=0, sep="\t", dtype=object)
 snpdat.Tumor_Sample_Barcode=tumor_samp
 snpdat.Matched_Norm_Sample_Barcode=norm_match
 #cols = snpdat.columns.tolist()
-snpdat.to_csv(newdir + "gistsnp_somatic_oncotate.maf.txt", sep="\t")
+snpdat.to_csv(newdir + "gistsnp_somatic_oncotate.txt", sep="\t", dtype=object)
 #only use snps where read depth was equal or above 20
 #snpdat=snpdat[snpdat['read_depth'] > 19]
 #snpdat.to_csv(newdir + "gistsnp_somatic_oncotate_q20.maf.txt", sep="\t")
+
+snpdat_trunc = snpdat.ix[:,'Hugo_Symbol':'Protein_Change']
+cond = snpdat_trunc['Tumor_Sample_Barcode'].str.contains('^RK|^SUR')
+
+snpdatkit = snpdat_trunc[~cond]
+snpdatrk = snpdat_trunc[cond]
+
+snpdatkit.to_csv(newdir + "gistsnp_somatic_oncotate_KIT.maf.txt", sep="\t", dtype=object)
+snpdatrk.to_csv(newdir + "gistsnp_somatic_oncotate_RK.maf.txt", sep="\t", dtype=object)
+
 
 for subdir, dirs, files in os.walk(indeldir):
 #for files in os.listdir(indeldir):
@@ -71,21 +81,30 @@ for subdir, dirs, files in os.walk(indeldir):
 #Replace UNKNOWN barcode columns with list of column names made above
 #dat = pd.read_table(newdir + "gists_somatic_oncotate.txt")
 #replace the tumor and normal barcodes
-indeldat=  pd.DataFrame.from_csv(newdir + "gistsindel_somatic_oncotate_unlabel.txt", header=0, sep="\t")
+indeldat=  pd.read_csv(newdir + "gistsindel_somatic_oncotate_unlabel.txt", header=0, sep="\t", dtype=object)
 indeldat.Tumor_Sample_Barcode=tumor_samp
 indeldat.Matched_Norm_Sample_Barcode=norm_samp
-indeldat.to_csv(newdir + "gistsindel_somatic_oncotate.maf.txt", sep="\t")
+indeldat.to_csv(newdir + "gistsindel_somatic_oncotate.txt", sep="\t", dtype=object)
 
 #only use snps where read depth was equal or above 20
 #indeldat=indeldat[indeldat['T_DP'] > 19]
 #indeldat.to_csv(newdir + "gistsindel_somatic_oncotate_q20.maf.txt", sep="\t")
 
+indel_trunc = indeldat.ix[:,'Hugo_Symbol':'Protein_Change']
+cond = indel_trunc['Tumor_Sample_Barcode'].str.contains('^RK|^SUR')
+
+indelkit = indel_trunc[~cond]
+indelrk = indel_trunc[cond]
+
 
 
 #Combining the snps and indels into a single mafs
-snpdat_trunc=snpdat.ix[:,0:41]
-indel_trunc=indeldat.ix[:,0:41]
 
-mut_dat = pd.concat([snpdat_trunc, indel_trunc])
-mut_dat.to_csv(newdir + "combo_muts.maf.txt", sep="\t")
+
+mutdatkit = pd.concat([snpdatkit, indelkit])
+mutdatkit.to_csv(newdir + "combo_muts_KIT.maf.txt", sep="\t", dtype=object)
+
+mutdatrk = pd.concat([snpdatrk, indelrk])
+mutdatrk.to_csv(newdir + "combo_muts_RK.maf.txt", sep="\t", dtype=object)
+
 
