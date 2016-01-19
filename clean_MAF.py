@@ -100,11 +100,11 @@ indelrk = indel_trunc[cond]
 
 #Combining the snps and indels into a single mafs
 
-
 mutdatkit = pd.concat([snpdatkit, indelkit])
 mutdatkit.to_csv(newdir + "combo_muts_KIT.maf.txt", sep="\t", dtype=object)
 
 mutdatrk = pd.concat([snpdatrk, indelrk])
 mutdatrk.to_csv(newdir + "combo_muts_RK.maf.txt", sep="\t", dtype=object)
 
-
+mutdat = pd.concat([snpdat_trunc, indel_trunc])
+mutdat.to_csv(newdir + "combo_muts_all.maf.txt", sep="\t", dtype=object)
