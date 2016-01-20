@@ -37,7 +37,7 @@ snpdat=  pd.read_csv(newdir + "gistsnp_somatic_oncotate_unlabel.txt", header=0, 
 snpdat.Tumor_Sample_Barcode=tumor_samp
 snpdat.Matched_Norm_Sample_Barcode=norm_match
 #cols = snpdat.columns.tolist()
-snpdat.to_csv(newdir + "gistsnp_somatic_oncotate.txt", sep="\t", dtype=object)
+snpdat.to_csv(newdir + "gistsnp_somatic_oncotate.txt", sep="\t", dtype=object, index=False)
 #only use snps where read depth was equal or above 20
 #snpdat=snpdat[snpdat['read_depth'] > 19]
 #snpdat.to_csv(newdir + "gistsnp_somatic_oncotate_q20.maf.txt", sep="\t")
@@ -48,8 +48,8 @@ cond = snpdat_trunc['Tumor_Sample_Barcode'].str.contains('^RK|^SUR')
 snpdatkit = snpdat_trunc[~cond]
 snpdatrk = snpdat_trunc[cond]
 
-snpdatkit.to_csv(newdir + "gistsnp_somatic_oncotate_KIT.maf.txt", sep="\t", dtype=object)
-snpdatrk.to_csv(newdir + "gistsnp_somatic_oncotate_RK.maf.txt", sep="\t", dtype=object)
+snpdatkit.to_csv(newdir + "gistsnp_somatic_oncotate_KIT.maf.txt", sep="\t", dtype=object, index=False)
+snpdatrk.to_csv(newdir + "gistsnp_somatic_oncotate_RK.maf.txt", sep="\t", dtype=object, index=False)
 
 
 for subdir, dirs, files in os.walk(indeldir):
@@ -84,7 +84,7 @@ for subdir, dirs, files in os.walk(indeldir):
 indeldat=  pd.read_csv(newdir + "gistsindel_somatic_oncotate_unlabel.txt", header=0, sep="\t", dtype=object)
 indeldat.Tumor_Sample_Barcode=tumor_samp
 indeldat.Matched_Norm_Sample_Barcode=norm_samp
-indeldat.to_csv(newdir + "gistsindel_somatic_oncotate.txt", sep="\t", dtype=object)
+indeldat.to_csv(newdir + "gistsindel_somatic_oncotate.txt", sep="\t", dtype=object, index=False)
 
 #only use snps where read depth was equal or above 20
 #indeldat=indeldat[indeldat['T_DP'] > 19]
@@ -101,10 +101,10 @@ indelrk = indel_trunc[cond]
 #Combining the snps and indels into a single mafs
 
 mutdatkit = pd.concat([snpdatkit, indelkit])
-mutdatkit.to_csv(newdir + "combo_muts_KIT.maf.txt", sep="\t", dtype=object)
+mutdatkit.to_csv(newdir + "combo_muts_KIT.maf.txt", sep="\t", dtype=object, index=False)
 
 mutdatrk = pd.concat([snpdatrk, indelrk])
-mutdatrk.to_csv(newdir + "combo_muts_RK.maf.txt", sep="\t", dtype=object)
+mutdatrk.to_csv(newdir + "combo_muts_RK.maf.txt", sep="\t", dtype=object, index=False)
 
 mutdat = pd.concat([snpdat_trunc, indel_trunc])
-mutdat.to_csv(newdir + "combo_muts_all.maf.txt", sep="\t", dtype=object)
+mutdat.to_csv(newdir + "combo_muts.maf.txt", sep="\t", dtype=object, index=False)
