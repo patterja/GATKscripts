@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Output MAF file from Oncotator output.
+Usage:
+python clean_MAF.py
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 import os
 import re
 import pandas as pd
