@@ -92,7 +92,7 @@ def trunc2comb(snpdat, indeldat):
 
     # Change snpdatkit alt count and read depth to match indels
     # column 80 is t_ref_count and column 199=allelic depth
-    snpdat_trunc = snpdat[snpdat.columns[range(42) + [79, 199]]]
+    snpdat_trunc = snpdat[snpdat.columns[range(42) + [300, 199]]]
     snpdat_trunc.columns.values[[42, 43]] = ['T_DP', 'T_AC']
 
     condsnp = snpdat_trunc['Tumor_Sample_Barcode'].str.contains('^RK|^SUR')
